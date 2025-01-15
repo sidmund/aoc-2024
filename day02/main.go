@@ -72,7 +72,7 @@ func main() {
             continue
         }
 
-        for i := 0; i < len(levels); i++ {
+        for i := range levels {
             if isReportSafe(levels, i) {
                 safeWithRemoval++
                 break

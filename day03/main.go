@@ -4,24 +4,18 @@ import (
     "fmt"
     "regexp"
     "strconv"
-    "strings"
 
     "github.com/sidmund/aoc-2024/lib"
 )
 
-func mul(ins string) int {
-    ops := strings.Split(ins[4:len(ins)-1], ",")
-    a, _ := strconv.Atoi(ops[0])
-    b, _ := strconv.Atoi(ops[1])
-    return a*b
-}
-
 func process(lines []string) int {
     sum := 0
-    re := regexp.MustCompile(`mul\(\d+,\d+\)`)
+    re := regexp.MustCompile(`mul\((\d+),(\d+)\)`)
     for _, line := range lines {
-        for _, match := range re.FindAllString(line, -1) {
-            sum += mul(match)
+        for _, match := range re.FindAllStringSubmatch(line, -1) {
+            a, _ := strconv.Atoi(match[1])
+            b, _ := strconv.Atoi(match[2])
+            sum += a * b
         }
     }
     return sum
@@ -30,15 +24,17 @@ func process(lines []string) int {
 func processWithConditionals(lines []string) int {
     sum := 0
     enabled := true
-    re := regexp.MustCompile(`mul\(\d+,\d+\)|do\(\)|don't\(\)`)
+    re := regexp.MustCompile(`mul\((\d+),(\d+)\)|do\(\)|don't\(\)`)
     for _, line := range lines {
-        for _, match := range re.FindAllString(line, -1) {
-            if match[2] == '(' {
+        for _, match := range re.FindAllStringSubmatch(line, -1) {
+            if match[0][2] == '(' {
                 enabled = true
-            } else if match[2] == 'n' {
+            } else if match[0][2] == 'n' {
                 enabled = false
-            } else if enabled && match[2] == 'l' {
-                sum += mul(match)
+            } else if enabled && match[0][2] == 'l' {
+                a, _ := strconv.Atoi(match[1])
+                b, _ := strconv.Atoi(match[2])
+                sum += a * b
             }
         }
     }
