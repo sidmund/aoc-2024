@@ -3,13 +3,11 @@ package main
 import (
 	"fmt"
 	"slices"
-	"strconv"
-	"strings"
 
 	"github.com/sidmund/aoc-2024/lib"
 )
 
-func abs(n int64) int64 {
+func abs(n int) int {
     if n < 0 {
         return -n
     }
@@ -19,34 +17,24 @@ func abs(n int64) int64 {
 func main() {
 	lines := lib.ReadLines("day01/input")
 
-	left := make([]int64, len(lines))
-	right := make([]int64, len(lines))
+    var left, right []int
+    frequency := map[int]int{}
 	for _, line := range lines {
-		split := strings.Fields(line)
-		l, _ := strconv.ParseInt(split[0], 10, 64)
-		r, _ := strconv.ParseInt(split[1], 10, 64)
-		left = append(left, l)
-		right = append(right, r)
+        var l, r int
+        fmt.Sscanf(line, "%d   %d", &l, &r)
+        left, right = append(left, l), append(right, r)
+        frequency[r]++
 	}
 
 	slices.Sort(left)
 	slices.Sort(right)
 
-	var sum int64
+    sum, similarityScore := 0, 0
 	for i := range left {
 		sum += abs(left[i] - right[i])
+        similarityScore += frequency[left[i]] * left[i]
 	}
-    fmt.Println("Part 1:", sum)
 
-    var similarityScore int64
-    for _, l := range left {
-        var frequency int64
-        for _, r := range right {
-            if l == r {
-                frequency++
-            }
-        }
-        similarityScore += frequency * l
-    }
+    fmt.Println("Part 1:", sum)
     fmt.Println("Part 2:", similarityScore)
 }
