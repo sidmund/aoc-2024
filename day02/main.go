@@ -5,7 +5,7 @@ import (
     "strconv"
     "strings"
 
-	lib "github.com/sidmund/aoc-2024/lib"
+	"github.com/sidmund/aoc-2024/lib"
 )
 
 func parse(s string) int64 {

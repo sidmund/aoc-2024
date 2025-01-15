@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	lib "github.com/sidmund/aoc-2024/lib"
+	"github.com/sidmund/aoc-2024/lib"
 )
 
 func abs(n int64) int64 {
