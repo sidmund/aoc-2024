@@ -8,4 +8,5 @@
 | `04` | [**Ceres Search**](https://adventofcode.com/2024/day/4)       | [Go](https://github.com/sidmund/aoc-2024/blob/main/day04/main.go) |                 |
 | `05` | [**Print Queue**](https://adventofcode.com/2024/day/5)        | [Go](https://github.com/sidmund/aoc-2024/blob/main/day05/main.go) |                 |
 | `06` | [**Guard Gallivant**](https://adventofcode.com/2024/day/6)    | [Go](https://github.com/sidmund/aoc-2024/blob/main/day06/main.go) |                 |
+| `07` | [**Bridge Repair**](https://adventofcode.com/2024/day/7)      | [Go](https://github.com/sidmund/aoc-2024/blob/main/day07/main.go) |                 |
 
