@@ -11,4 +11,5 @@
 | `07` | [**Bridge Repair**](https://adventofcode.com/2024/day/7)         | [Go](https://github.com/sidmund/aoc-2024/blob/main/day07/main.go) |                 |
 | `08` | [**Resonant Collinearity**](https://adventofcode.com/2024/day/8) | [Go](https://github.com/sidmund/aoc-2024/blob/main/day08/main.go) |                 |
 | `09` | [**Disk Fragmenter**](https://adventofcode.com/2024/day/9)       | [Go](https://github.com/sidmund/aoc-2024/blob/main/day09/main.go) |                 |
+| `10` | [**Hoof It**](https://adventofcode.com/2024/day/10)              | [Go](https://github.com/sidmund/aoc-2024/blob/main/day10/main.go) |                 |
 
