@@ -13,4 +13,5 @@
 | `09` | [**Disk Fragmenter**](https://adventofcode.com/2024/day/9)       | [Go](https://github.com/sidmund/aoc-2024/blob/main/day09/main.go) |                 |
 | `10` | [**Hoof It**](https://adventofcode.com/2024/day/10)              | [Go](https://github.com/sidmund/aoc-2024/blob/main/day10/main.go) |                 |
 | `11` | [**Plutonian Pebbles**](https://adventofcode.com/2024/day/11)    | [Go](https://github.com/sidmund/aoc-2024/blob/main/day11/main.go) |                 |
+| `12` | [**Garden Groups**](https://adventofcode.com/2024/day/12)        | [Go](https://github.com/sidmund/aoc-2024/blob/main/day12/main.go) |                 |
 
