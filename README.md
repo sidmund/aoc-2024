@@ -15,4 +15,5 @@
 | `11` | [**Plutonian Pebbles**](https://adventofcode.com/2024/day/11)    | [Go](https://github.com/sidmund/aoc-2024/blob/main/day11/main.go) |                 |
 | `12` | [**Garden Groups**](https://adventofcode.com/2024/day/12)        | [Go](https://github.com/sidmund/aoc-2024/blob/main/day12/main.go) |                 |
 | `13` | [**Claw Contraption**](https://adventofcode.com/2024/day/13)     | [Go](https://github.com/sidmund/aoc-2024/blob/main/day13/main.go) |                 |
+| `14` | [**Restroom Redoubt**](https://adventofcode.com/2024/day/14)     | [Go](https://github.com/sidmund/aoc-2024/blob/main/day14/main.go) |                 |
 
