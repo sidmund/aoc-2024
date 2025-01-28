@@ -7,15 +7,10 @@ import (
 	"github.com/sidmund/aoc-2024/lib"
 )
 
-type point struct {
-	x int
-	y int
-}
-
-func patrol(start point, obstruction point, lab [][]byte) map[point]int {
-	delta := []point{{0, -1}, {1, 0}, {0, 1}, {-1, 0}} // NESW
+func patrol(start lib.Point, obstruction lib.Point, lab [][]byte) map[lib.Point]int {
+	delta := []lib.Point{{X: 0, Y: -1}, {X: 1, Y: 0}, {X: 0, Y: 1}, {X: -1, Y: 0}} // NESW
 	pos, dir := start, 0
-	visited := map[point]int{}
+	visited := map[lib.Point]int{}
 
 	for {
 		if 1<<dir&visited[pos] != 0 {
@@ -23,12 +18,12 @@ func patrol(start point, obstruction point, lab [][]byte) map[point]int {
 		}
 
 		visited[pos] |= 1 << dir // Mark this dir for this point as visited
-		next := point{pos.x + delta[dir].x, pos.y + delta[dir].y}
-		if next.y < 0 || next.y >= len(lab) || next.x < 0 || next.x >= len(lab[0]) {
+		next := pos.Add(delta[dir])
+		if next.Y < 0 || next.Y >= len(lab) || next.X < 0 || next.X >= len(lab[0]) {
 			return visited // Guard leaves
 		}
 
-		if char := lab[next.y][next.x]; char == '#' || next == obstruction {
+		if char := lab[next.Y][next.X]; char == '#' || next == obstruction {
 			dir = (dir + 1) % 4 // Right turn
 		} else {
 			pos = next
@@ -40,17 +35,17 @@ func main() {
 	lines := lib.ReadLines("day06/input")
 
 	lab := make([][]byte, len(lines))
-	var start point
+	var start lib.Point
 	for y, line := range lines {
 		lab[y] = []byte(line)
 		for x, char := range lab[y] {
 			if char == '^' {
-				start = point{x, y}
+				start = lib.Point{X: x, Y: y}
 			}
 		}
 	}
 
-	visited := patrol(start, point{-1, -1}, lab)
+	visited := patrol(start, lib.Point{X: -1, Y: -1}, lab)
 	fmt.Println("Part 1:", len(visited))
 
 	defer lib.Measure(time.Now(), "Part 2")

@@ -4,31 +4,27 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/sidmund/aoc-2024/lib"
 )
-
-type point struct{ x, y int }
-
-func (p point) add(q point) point {
-	return point{p.x + q.x, p.y + q.y}
-}
 
 type box struct{ x, y, w int }
 
-func boxAt(boxes map[box]bool, p point) (box, bool) {
+func boxAt(boxes map[box]bool, p lib.Point) (box, bool) {
 	for b := range boxes {
-		if p.y == b.y && p.x >= b.x && p.x < b.x+b.w {
+		if p.Y == b.y && p.X >= b.x && p.X < b.x+b.w {
 			return b, true
 		}
 	}
 	return box{}, false
 }
 
-func push(boxes map[box]bool, walls map[point]bool, start, d point) bool {
+func push(boxes map[box]bool, walls map[lib.Point]bool, start, d lib.Point) bool {
 	toPush, n := []box{}, start
 	for {
 		if b, ok := boxAt(boxes, n); ok {
 			toPush = append(toPush, b)
-			n = n.add(point{b.w * d.x, d.y})
+			n = n.Add(lib.Point{X: b.w * d.X, Y: d.Y})
 		} else {
 			break
 		}
@@ -41,17 +37,17 @@ func push(boxes map[box]bool, walls map[point]bool, start, d point) bool {
 	}
 	for i := len(toPush) - 1; i >= 0; i-- {
 		delete(boxes, toPush[i])
-		boxes[box{toPush[i].x + d.x, toPush[i].y + d.y, toPush[i].w}] = true
+		boxes[box{toPush[i].x + d.X, toPush[i].y + d.Y, toPush[i].w}] = true
 	}
 	return true
 }
 
-func canPushVertical(boxes map[box]bool, walls map[point]bool, start point, dy int) bool {
+func canPushVertical(boxes map[box]bool, walls map[lib.Point]bool, start lib.Point, dy int) bool {
 	if walls[start] {
 		return false
 	}
 	if b, ok := boxAt(boxes, start); ok {
-		l, r := point{b.x, b.y + dy}, point{b.x + 1, b.y + dy}
+		l, r := lib.Point{X: b.x, Y: b.y + dy}, lib.Point{X: b.x + 1, Y: b.y + dy}
 		if walls[l] || walls[r] {
 			return false
 		}
@@ -63,9 +59,9 @@ func canPushVertical(boxes map[box]bool, walls map[point]bool, start point, dy i
 	return true // Empty spot
 }
 
-func pushVertical(boxes map[box]bool, walls map[point]bool, start point, dy int) {
+func pushVertical(boxes map[box]bool, walls map[lib.Point]bool, start lib.Point, dy int) {
 	if b, ok := boxAt(boxes, start); ok {
-		l, r := point{b.x, b.y + dy}, point{b.x + 1, b.y + dy}
+		l, r := lib.Point{X: b.x, Y: b.y + dy}, lib.Point{X: b.x + 1, Y: b.y + dy}
 		pushVertical(boxes, walls, l, dy)
 		pushVertical(boxes, walls, r, dy)
 		delete(boxes, b)
@@ -74,28 +70,28 @@ func pushVertical(boxes map[box]bool, walls map[point]bool, start point, dy int)
 }
 
 func gps(warehouse, moves string, width int) int {
-	robot, boxes, walls := point{}, map[box]bool{}, map[point]bool{}
+	robot, boxes, walls := lib.Point{}, map[box]bool{}, map[lib.Point]bool{}
 	for y, s := range strings.Split(warehouse, "\n") {
 		for x, r := range s {
 			if r == '#' {
 				for w := 0; w < width; w++ {
-					walls[point{width*x + w, y}] = true
+					walls[lib.Point{X: width*x + w, Y: y}] = true
 				}
 			} else if r == 'O' {
 				boxes[box{width * x, y, width}] = true
 			} else if r == '@' {
-				robot = point{width * x, y}
+				robot = lib.Point{X: width * x, Y: y}
 			}
 		}
 	}
 
-	delta := map[rune]point{'^': {0, -1}, 'v': {0, 1}, '>': {1, 0}, '<': {-1, 0}}
+	delta := map[rune]lib.Point{'^': {X: 0, Y: -1}, 'v': {X: 0, Y: 1}, '>': {X: 1, Y: 0}, '<': {X: -1, Y: 0}}
 	for _, r := range moves {
 		if d, ok := delta[r]; ok {
-			n := robot.add(d)
-			if width > 1 && d.y != 0 {
-				if canPushVertical(boxes, walls, n, d.y) {
-					pushVertical(boxes, walls, n, d.y)
+			n := robot.Add(d)
+			if width > 1 && d.Y != 0 {
+				if canPushVertical(boxes, walls, n, d.Y) {
+					pushVertical(boxes, walls, n, d.Y)
 					robot = n
 				}
 			} else if push(boxes, walls, n, d) {

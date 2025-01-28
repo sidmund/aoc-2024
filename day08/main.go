@@ -6,24 +6,19 @@ import (
 	"github.com/sidmund/aoc-2024/lib"
 )
 
-type point struct {
-	x int
-	y int
-}
-
 func main() {
 	lines := lib.ReadLines("day08/input")
 
-	freq := map[rune][]point{}
+	freq := map[rune][]lib.Point{}
 	for y, line := range lines {
 		for x, r := range line {
 			if r != '.' {
-				freq[r] = append(freq[r], point{x, y})
+				freq[r] = append(freq[r], lib.Point{X: x, Y: y})
 			}
 		}
 	}
 
-	resonant, harmonics := map[point]struct{}{}, map[point]struct{}{}
+	resonant, harmonics := map[lib.Point]struct{}{}, map[lib.Point]struct{}{}
 	for _, antennas := range freq {
 		for _, a1 := range antennas {
 			for _, a2 := range antennas {
@@ -31,10 +26,10 @@ func main() {
 					continue
 				}
 
-				dx, dy := a2.x-a1.x, a2.y-a1.y
+				d := a2.Sub(a1)
 				for i := 0; ; i++ { // 0, because the antenna itself counts in the harmonics as well
-					antinode := point{a2.x + (i * dx), a2.y + (i * dy)}
-					if antinode.x < 0 || antinode.x >= len(lines) || antinode.y < 0 || antinode.y >= len(lines) {
+					antinode := a2.Add(d.Scale(i))
+					if antinode.X < 0 || antinode.X >= len(lines) || antinode.Y < 0 || antinode.Y >= len(lines) {
 						break
 					}
 

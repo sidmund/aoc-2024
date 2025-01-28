@@ -6,10 +6,8 @@ import (
 	"github.com/sidmund/aoc-2024/lib"
 )
 
-type point struct{ x, y int }
-
-func dfs(heights [][]int, start point, reached map[point]struct{}) int {
-	if heights[start.y][start.x] == 9 {
+func dfs(heights [][]int, start lib.Point, reached map[lib.Point]struct{}) int {
+	if heights[start.Y][start.X] == 9 {
 		if _, ok := reached[start]; ok {
 			return 0
 		}
@@ -20,12 +18,12 @@ func dfs(heights [][]int, start point, reached map[point]struct{}) int {
 	}
 
 	score := 0
-	for _, d := range []point{{-1, 0}, {1, 0}, {0, -1}, {0, 1}} {
-		next := point{start.x + d.x, start.y + d.y}
-		if next.x < 0 || next.x >= len(heights[0]) || next.y < 0 || next.y >= len(heights) {
+	for _, d := range []lib.Point{{X: -1, Y: 0}, {X: 1, Y: 0}, {X: 0, Y: -1}, {X: 0, Y: 1}} {
+		next := start.Add(d)
+		if next.X < 0 || next.X >= len(heights[0]) || next.Y < 0 || next.Y >= len(heights) {
 			continue
 		}
-		if heights[next.y][next.x] == heights[start.y][start.x]+1 {
+		if heights[next.Y][next.X] == heights[start.Y][start.X]+1 {
 			score += dfs(heights, next, reached)
 		}
 	}
@@ -34,22 +32,22 @@ func dfs(heights [][]int, start point, reached map[point]struct{}) int {
 
 func main() {
 	lines := lib.ReadLines("day10/input")
-	heights, heads := make([][]int, len(lines)), []point{}
+	heights, heads := make([][]int, len(lines)), []lib.Point{}
 	for y, line := range lines {
 		heights[y] = make([]int, len(line))
 		for x, r := range line {
 			heights[y][x] = int(r - '0')
 			if r == '0' {
-				heads = append(heads, point{x, y})
+				heads = append(heads, lib.Point{X: x, Y: y})
 			}
 		}
 	}
 
 	scores, ratings := 0, 0
 	for _, head := range heads {
-		scores += dfs(heights, head, map[point]struct{}{})
+		scores += dfs(heights, head, map[lib.Point]struct{}{})
 		ratings += dfs(heights, head, nil)
 	}
-	fmt.Println("Part 1", scores)
-	fmt.Println("Part 2", ratings)
+	fmt.Println("Part 1:", scores)
+	fmt.Println("Part 2:", ratings)
 }
